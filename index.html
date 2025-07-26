@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Shop Assignment</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS */
+        :root {
+            --primary-color: #4CAF50;
+            --secondary-color: #388E3C;
+            --dark-color: #2E7D32;
+            --light-color: #C8E6C9;
+            --text-color: #333;
+            --light-text: #777;
+            --white: #fff;
+            --black: #000;
+            --gray: #f5f5f5;
+            --dark-gray: #e0e0e0;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: all 0.3s ease;
+        }
+        .btn:hover {
+            background-color: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+        .section-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .section-header h2 {
+            font-size: 32px;
+            margin-bottom: 10px;
+            color: var(--dark-color);
+        }
+        .section-header p {
+            color: var(--light-text);
+            font-size: 18px;
+        }
+        /* Navbar */
+        .navbar {
+            background-color: var(--white);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+        .navbar .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .menu-items {
+            display: flex;
+            align-items: center;
+        }
+        .menu-items a {
+            margin: 0 15px;
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .menu-items a:hover {
+            color: var(--primary-color);
+        }
+        .cart {
+            display: flex;
+            align-items: center;
+            margin-left: 15px;
+            cursor: pointer;
+        }
+        .cart i {
+            margin-right: 5px;
+            font-size: 18px;
+        }
+        .mobile-cart {
+            display: none;
+        }
+        /* Banner */
+        .banner {
+            padding: 60px 0;
+            background-color: var(--gray);
+        }
+        .banner .container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .banner-content {
+            flex: 1;
+            padding-right: 40px;
+        }
+        .banner-content h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+            line-height: 1.2;
+        }
+        .banner-content p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            color: var(--light-text);
+        }
+        .banner-image {
+            flex: 1;
+        }
+        .banner-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        /* Plants Section */
+        .plants {
+            padding: 80px 0;
+            background-color: var(--white);
+        }
+        .plant-cards {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        .plant-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .plant-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .plant-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .plant-card h3 {
+            padding: 15px 20px 5px;
+            font-size: 18px;
+        }
+        .plant-card .price {
+            padding: 0 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 20px;
+        }
+        .plant-card .add-to-cart {
+            margin: 15px 20px 20px;
+            width: calc(100% - 40px);
+        }
+        /* Plants Lover */
+        .plants-lover {
+            padding: 80px 0;
+            background-color: var(--gray);
+        }
+        .plants-lover .container {
+            display: flex;
+            align-items: center;
+        }
+        .plants-lover-image {
+            flex: 1;
+            position: relative;
+            padding-right: 40px;
+        }
+        .plants-lover-image img {
+            width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        .trusted-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background-color: var(--white);
+            padding: 8px 15px;
+            border-radius: 20px;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            animation: spin 4s linear infinite;
+        }
+        .trusted-badge i {
+            color: var(--primary-color);
+            margin-right: 5px;
+        }
+        .plants-lover-content {
+            flex: 1;
+        }
+        .plants-lover-content h2 {
+            font-size: 32px;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+        .plants-lover-content ul {
+            list-style: none;
+        }
+        .plants-lover-content ul li {
+            margin-bottom: 15px;
+            font-size: 18px;
+            display: flex;
+            align-items: center;
+        }
+        .plants-lover-content ul li i {
+            color: var(--primary-color);
+            margin-right: 10px;
+            font-size: 20px;
+        }
+        /* Latest Deal */
+        .latest-deal {
+            padding: 80px 0;
+            background-color: var(--white);
+        }
+        .deal-cards {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 30px;
+        }
+        .deal-card {
+            background-color: var(--white);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        .deal-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+        }
+        .deal-tag {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background-color: var(--primary-color);
+            color: var(--white);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .deal-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .deal-card h3 {
+            padding: 15px 20px 5px;
+            font-size: 18px;
+        }
+        .deal-card .original-price {
+            padding: 0 20px;
+            text-decoration: line-through;
+            color: var(--light-text);
+        }
+        .deal-card .deal-price {
+            padding: 0 20px;
+            font-weight: bold;
+            color: var(--primary-color);
+            font-size: 20px;
+        }
+        .deal-card .btn {
+            margin: 15px 20px 20px;
+            width: calc(100% - 40px);
+        }
+        /* Join */
+        .join {
+            padding: 100px 0;
+            background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)), 
+                        url('https://images.unsplash.com/photo-1487088678257-3a541e6e3922') no-repeat center center/cover;
+            color: var(--white);
+            text-align: center;
+        }
+        .join h2 {
+            font-size: 36px;
+            margin-bottom: 20px;
+        }
+        .join p {
+            font-size: 18px;
+            margin-bottom: 30px;
+            opacity: 0.9;
+        }
+        .subscribe {
+            display: flex;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .subscribe input {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 16px;
+        }
+        .subscribe .btn {
+            border-radius: 0 4px 4px 0;
+            padding: 15px 30px;
+        }
+        /* Footer */
+        .footer {
+            background-color: #2E7D32;
+            color: var(--white);
+            padding: 60px 0 0;
+        }
+        .footer .container {
+            display: flex;
+            justify-content: space-between;
+        }
+        .footer-logo {
+            font-size: 24px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--white);
+            flex: 1;
+        }
+        .footer-links {
+            flex: 2;
+            display: flex;
+            justify-content: space-around;
+        }
+        .link-group {
+            margin-bottom: 30px;
+        }
+        .link-group h4 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: var(--white);
+        }
+        .link-group a {
+            display: block;
+            color: var(--light-color);
+            margin-bottom: 10px;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+        .link-group a:hover {
+            color: var(--white);
+        }
+        .copyright {
+            text-align: center;
+            padding: 20px 0;
+            background-color: var(--dark-color);
+            color: var(--light-color);
+            font-size: 14px;
+        }
+        /* Animation */
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+        /* Responsive */
+        @media (max-width: 992px) {
+            .plant-cards {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .deal-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        @media (max-width: 768px) {
+            .menu-items {
+                display: none;
+            }
+            .mobile-cart {
+                display: flex;
+                align-items: center;
+            }
+            .banner .container {
+                flex-direction: column-reverse;
+            }
+            .banner-content {
+                padding-right: 0;
+                padding-top: 30px;
+                text-align: center;
+            }
+            .plants-lover .container {
+                flex-direction: column;
+            }
+            .plants-lover-image {
+                padding-right: 0;
+                padding-bottom: 30px;
+            }
+            .plant-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            .footer .container {
+                flex-direction: column;
+            }
+            .footer-links {
+                flex-direction: column;
+            }
+            .trusted-badge {
+                display: none;
+            }
+        }
+        @media (max-width: 576px) {
+            .banner-content h1 {
+                font-size: 32px;
+            }
+            .plant-cards, .deal-cards {
+                grid-template-columns: 1fr;
+            }
+            .subscribe {
+                flex-direction: column;
+            }
+            .subscribe input {
+                border-radius: 4px;
+                margin-bottom: 10px;
+            }
+            .subscribe .btn {
+                border-radius: 4px;
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container">
+            <div class="logo">সহজ সরল সিম্পল</div>
+            <div class="menu-items">
+                <a href="#">Home</a>
+                <a href="#">Shop</a>
+                <a href="#">About</a>
+                <a href="#">Contact</a>
+                <div class="cart">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span>Cart</span>
+                </div>
+            </div>
+            <div class="mobile-cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Cart</span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Banner -->
+    <section class="banner">
+        <div class="container">
+            <div class="banner-content">
+                <h1>Bring Nature to Your Home</h1>
+                <p>Discover our wide variety of beautiful plants that will freshen up your living space and bring joy to your everyday life.</p>
+                <button class="btn">Shop Now</button>
+            </div>
+            <div class="banner-image">
+                <img src="https://images.unsplash.com/photo-1485955900006-10f4d324d411" alt="Indoor plants">
+            </div>
+        </div>
+    </section>
+
+    <!-- Plants -->
+    <section class="plants">
+        <div class="container">
+            <div class="section-header">
+                <h2>Our Featured Plants</h2>
+                <p>Choose from our carefully selected collection</p>
+            </div>
+            <div class="plant-cards">
+                <!-- Cards 1-8 -->
+                <div class="plant-card">
+                    <img src="https://images.unsplash.com/photo-1520412099551-62b6bafeb5bb" alt="Monstera Plant">
+                    <h3>Monstera Deliciosa</h3>
+                    <p class="price">৳ 1,200</p>
+                    <button class="btn add-to-cart">Add to Cart</button>
+                </div>
+                <div class="plant-card">
+                    <img src="https://images.unsplash.com/photo-1512428813834-c702c7702b78" alt="Snake Plant">
+                    <h3>Snake Plant</h3>
+                    <p class="price">৳ 950</p>
+                    <button class="btn add-to-cart">Add to Cart</button>
+                </div>
+                <div class="plant-card">
+                    <img src="https://images.unsplash.com/photo-1453904300235-0f2f60b15b5d" alt="Fiddle Leaf Fig">
+                    <h3>Fiddle Leaf Fig</h3>
+                    <p class="price">৳ 2,500</p>
+                    <button class="btn add-to-cart">Add to Cart</button>
+                </div>
+                <div class="plant-card">
+                    <img src="https://images.unsplash.com/photo-1497250681960-ef046c08a56e" alt="Peace Lily">
+                    <h3>Peace Lily</h3>
+                    <p class="price">৳ 850</p>
+                    <button class="btn add-to-cart">Add to Cart</button>
+                </div>
+                <div class="plant-card">
+                    <img src="https://images.unsplash.com/photo-1534710961216-75c88202f43a" alt="ZZ Plant">
+                    <h3>ZZ Plant</h3>
+                    <p class="price">৳ 1,100</p>
+                    <button class="btn add-to-cart">Add to Cart</button>
+                </div>
+                <div class="plant-card">
+                    <img src="https://images.unsplash.com/photo-1598880940080-ff9a29891b80" alt="Pothos">
+                    <h3>Golden Pothos</h3>
+                    <p class="price">৳ 750</p>
+                    <button class="btn add-to-cart">Add to Cart</button>
+                </div>
+                <div class="plant-card">
+                    <img src="https://images.unsplash.com/photo-1517191434949-5e90cd67d2b6" alt="Rubber Plant">
+                    <h3>Rubber Plant</h3>
+                    <p class="price">৳ 1,800</p>
+                    <button class="btn add-to-cart">Add to Cart</button>
+                </div>
+                <div class="plant-card">
+                    <img src="https://images.unsplash.com/photo-1459411552884-841db9b3cc2a" alt="Spider Plant">
+                    <h3>Spider Plant</h3>
+                    <p class="price">৳ 650</p>
+                    <button class="btn add-to-cart">Add to Cart</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Plants Lover -->
+    <section class="plants-lover">
+        <div class="container">
+            <div class="plants-lover-image">
+                <img src="https://images.unsplash.com/photo-1517848568502-d03fa74e1964" alt="Plant lover">
+                <div class="trusted-badge">
+                    <i class="fas fa-check-circle"></i>
+                    <span>Trusted Plant Lover</span>
+                </div>
+            </div>
+            <div class="plants-lover-content">
+                <h2>Why Choose Our Plants?</h2>
+                <ul>
+                    <li><i class="fas fa-check"></i> Carefully selected healthy plants</li>
+                    <li><i class="fas fa-check"></i> Expert advice for plant care</li>
+                    <li><i class="fas fa-check"></i> Sustainable growing practices</li>
+                    <li><i class="fas fa-check"></i> Free delivery on orders over ৳2000</li>
+                    <li><i class="fas fa-check"></i> 7-day plant health guarantee</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Latest Deal -->
+    <section class="latest-deal">
+        <div class="container">
+            <div class="section-header">
+                <h2>Latest Deals</h2>
+                <p>Don't miss these special offers</p>
+            </div>
+            <div class="deal-cards">
+                <div class="deal-card">
+                    <div class="deal-tag">Hot Deal</div>
+                    <img src="https://images.unsplash.com/photo-1517848568502-d03fa74e1964" alt="Special offer plant">
+                    <h3>Monstera Bundle</h3>
+                    <p class="original-price">৳ 3,500</p>
+                    <p class="deal-price">৳ 2,800</p>
+                    <button class="btn">Get Deal</button>
+                </div>
+                <div class="deal-card">
+                    <div class="deal-tag">20% Off</div>
+                    <img src="https://images.unsplash.com/photo-1517848568502-d03fa74e1964" alt="Special offer plant">
+                    <h3>Starter Kit</h3>
+                    <p class="original-price">৳ 4,200</p>
+                    <p class="deal-price">৳ 3,360</p>
+                    <button class="btn">Get Deal</button>
+                </div>
+                <div class="deal-card">
+                    <div class="deal-tag">Limited</div>
+                    <img src="https://images.unsplash.com/photo-1517848568502-d03fa74e1964" alt="Special offer plant">
+                    <h3>Office Pack</h3>
+                    <p class="original-price">৳ 5,000</p>
+                    <p class="deal-price">৳ 4,000</p>
+                    <button class="btn">Get Deal</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join -->
+    <section class="join">
+        <div class="container">
+            <div class="join-content">
+                <h2>Join the Colorful Bunch</h2>
+                <p>Subscribe to get updates on new arrivals and special offers</p>
+                <div class="subscribe">
+                    <input type="email" placeholder="Enter your email">
+                    <button class="btn">Subscribe</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-logo">সহজ সরল সিম্পল</div>
+            <div class="footer-links">
+                <div class="link-group">
+                    <h4>Shop</h4>
+                    <a href="#">All Plants</a>
+                    <a href="#">New Arrivals</a>
+                    <a href="#">Best Sellers</a>
+                </div>
+                <div class="link-group">
+                    <h4>About</h4>
+                    <a href="#">Our Story</a>
+                    <a href="#">Care Guide</a>
+                    <a href="#">Sustainability</a>
+                </div>
+                <div class="link-group">
+                    <h4>Help</h4>
+                    <a href="#">Contact Us</a>
+                    <a href="#">Shipping Info</a>
+                    <a href="#">Returns</a>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>&copy; 2025 সহজ সরল সিম্পল. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // JavaScript
+        document.querySelectorAll('.add-to-cart').forEach(button => {
+            button.addEventListener('click', function() {
+                alert('Flower Added to Cart');
+            });
+        });
+
+        const trustedBadge = document.querySelector('.trusted-badge');
+        if (trustedBadge) {
+            trustedBadge.addEventListener('mouseover', function() {
+                this.style.animation = 'spin 2s linear infinite';
+            });
+            
+            trustedBadge.addEventListener('mouseout', function() {
+                this.style.animation = 'spin 4s linear infinite';
+            });
+        }
+    </script>
+</body>
+</html>
